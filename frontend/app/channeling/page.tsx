@@ -30,22 +30,22 @@ export default function ChannelingPage() {
           <FeatureCard
             title="Channeling"
             description="Connect seamlessly with top healthcare professionals."
-            onClick={() => router.push('/Homepage')}
+            onClick={() => router.push('/channeling/channel-appointment')}
           />
           <FeatureCard
             title="Upload LAB Reports"
             description="Easily upload and view your lab results online."
-            onClick={() => alert("Upload LAB Reports clicked")}
+            onClick={() => router.push('/channeling/upload-lab-report')}
           />
           <FeatureCard
             title="My Appointments"
             description="Manage and review your upcoming appointments."
-            onClick={() => alert("My Appointments clicked")}
+            onClick={() => router.push('/channeling/view-my-appointments')}
           />
           <FeatureCard
             title="Check Ongoing Number"
             description="Monitor your current queue status in real time."
-            onClick={() => alert("Check Ongoing Number clicked")}
+            onClick={() => router.push('/channeling/check-ongoing-number')}
           />
         </div>
       </div>
