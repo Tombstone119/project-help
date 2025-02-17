@@ -1,26 +1,15 @@
 "use client";
 
 import React from "react";
+import { FeatureCard } from "@/components/ui";
+import { useRouter } from 'next/navigation'
 
-type FeatureCardProps = {
-  title: string;
-  description: string;
-  onClick?: () => void;
-};
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, onClick }) => {
-  return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition duration-150 ease-in-out bg-white"
-    >
-      <h3 className="text-xl font-semibold mb-2 text-center text-gray-800">{title}</h3>
-      <p className="text-gray-600 text-center">{description}</p>
-    </div>
-  );
-};
 
 export default function ChannelingPage() {
+
+  const router = useRouter()
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-10">
@@ -41,7 +30,7 @@ export default function ChannelingPage() {
           <FeatureCard
             title="Channeling"
             description="Connect seamlessly with top healthcare professionals."
-            onClick={() => alert("Channeling clicked")}
+            onClick={() => router.push('/Homepage')}
           />
           <FeatureCard
             title="Upload LAB Reports"
