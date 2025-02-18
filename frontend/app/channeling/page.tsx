@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { FeatureCard } from "@/components/ui";
 import { useRouter } from 'next/navigation'
 
