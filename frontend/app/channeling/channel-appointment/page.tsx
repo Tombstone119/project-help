@@ -5,26 +5,49 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Button from "@/components/ui/buttons/Button1";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+
 
 const formSchema = z.object({
   emailAddress: z.string().email(),
   password: z.string().min(3),
   passwordConfirm: z.string().min(3),
+  accountType: z.enum(["personal","company"]),
+  companyName: z.string().optional()
 }).refine((data) => {
   return data.password === data.passwordConfirm 
 }, {
   message: "Password do not match",
-  path: ["passwordConfirm"]
-});
+  path: ["passwordConfirm"],
+}).refine((data) => {
+  if(data.accountType === "company"){
+    return !!data.companyName;
+  }
+  return true
+}, {
+  message: "Company name is required",
+  path: ["companyName"],
+});   
+
+
 
 export default function ChannelAppointment() {
+
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { emailAddress: "" },
+    defaultValues: {
+      emailAddress: "",
+      password: "",
+      passwordConfirm: "",
+      companyName: "",
+    },
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log({values});
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
@@ -76,7 +99,29 @@ export default function ChannelAppointment() {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )} />
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="accountType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Account Type: </FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select an account type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="personal">Personal</SelectItem>
+                      <SelectItem value="company">Company</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded">
               Submit
             </Button>
