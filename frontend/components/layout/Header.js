@@ -7,9 +7,16 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between px-4">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <Image src="/logo-type2_enhanced.jpg" alt="Logo" width={200} height={90} unoptimized />
+          <Image src="/logo-bg-removed2.png" alt="Logo" width={200} height={100} unoptimized />
         </div>
 
+        <div>
+          search
+        </div>
+
+        <div>
+          shooping cart
+        </div>
         
       </div>
     </header>
