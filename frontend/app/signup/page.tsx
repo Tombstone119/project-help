@@ -1,8 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation'; 
+import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+
+// Define the shape of the error response data
+interface ErrorResponse {
+  message: string;
+}
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -20,11 +25,28 @@ const Signup = () => {
       });
 
       if (response.status === 201) {
-        
         router.push('/login');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Something went wrong!');
+    } catch (err) {
+      // Cast the error to AxiosError
+      const error = err as AxiosError;
+
+      // Default error message in case the error message is not found
+      let errorMessage: string = 'Something went wrong!';
+
+      // Check if the error response exists and has a 'message' property
+      if (
+        error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // Cast to the expected ErrorResponse type
+        const errorData = error.response.data as ErrorResponse;
+        errorMessage = errorData.message; // Use the message from the server
+      }
+
+      // Set the error message (ensuring it's a string)
+      setError(errorMessage);
     }
   };
 
