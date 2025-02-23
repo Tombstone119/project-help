@@ -8,7 +8,7 @@ export default function HomeMenu() {
                 {/* Product 1 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/20 transition-all">
                     <Image 
-                        src="/headphones.jpg" 
+                        src="/product.jpg" 
                         alt="Headphones" 
                         width={200} 
                         height={160} 
@@ -24,7 +24,7 @@ export default function HomeMenu() {
                 {/* Product 2 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/20 transition-all">
                     <Image 
-                        src="/watch.jpg" 
+                        src="/product.jpg" 
                         alt="Watch" 
                         width={200} 
                         height={160} 
@@ -40,7 +40,7 @@ export default function HomeMenu() {
                 {/* Product 3 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/shoes.jpg" 
+                        src="/product.jpg" 
                         alt="Shoes" 
                         width={200} 
                         height={160} 
@@ -56,7 +56,7 @@ export default function HomeMenu() {
                 {/* Product 4 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/bag.jpg" 
+                        src="/product.jpg" 
                         alt="Bag" 
                         width={200} 
                         height={160} 
@@ -75,7 +75,7 @@ export default function HomeMenu() {
                 {/* Product 5 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/hat.jpg" 
+                        src="/product.jpg" 
                         alt="Hat" 
                         width={200} 
                         height={160} 
@@ -91,7 +91,7 @@ export default function HomeMenu() {
                 {/* Product 6 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/bottle.jpg" 
+                        src="/product.jpg" 
                         alt="Bottle" 
                         width={200} 
                         height={160} 
@@ -107,7 +107,7 @@ export default function HomeMenu() {
                 {/* Product 7 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/clothes.jpg" 
+                        src="/product.jpg" 
                         alt="Clothes" 
                         width={200} 
                         height={160} 
@@ -123,7 +123,7 @@ export default function HomeMenu() {
                 {/* Product 8 */}
                 <div className="bg-gray-300 rounded-lg text-center p-4 hover:bg-white hover:shadow-md hover:shadow-gray-900/25 transition-all">
                     <Image 
-                        src="/mouse.jpg" 
+                        src="/product.jpg" 
                         alt="Mouse" 
                         width={200} 
                         height={160} 
