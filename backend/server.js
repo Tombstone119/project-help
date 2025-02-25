@@ -28,3 +28,6 @@ app.listen(PORT, () => {
     const now = new Date().toLocaleString();
     console.log(`[${now}] 🚀 Server is up and running on port number: ${PORT}`);
 });
+
+//Product and cart page
+
