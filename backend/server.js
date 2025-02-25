@@ -1,3 +1,4 @@
+// MongoDB Connection
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -13,10 +14,17 @@ app.use(bodyParser.json());
 
 const URL = process.env.MONGODB_URL;
 
-mongoose.connect(URL) 
-    .then(() => console.log("MongoDB Connection Success!"))
-    .catch((err) => console.error("MongoDB Connection Failed:", err));
+mongoose.connect(URL)
+    .then(() => {
+        const now = new Date().toLocaleString();
+        console.log(`[${now}] ✅ MongoDB Connection Success!`);
+    })
+    .catch((err) => {
+        const now = new Date().toLocaleString();
+        console.error(`[${now}] ❌ MongoDB Connection Failed:`, err);
+    });
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on port number: ${PORT}`);
+    const now = new Date().toLocaleString();
+    console.log(`[${now}] 🚀 Server is up and running on port number: ${PORT}`);
 });
