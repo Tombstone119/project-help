@@ -1,6 +1,6 @@
 "use client";
 
-import { ChannelAppointmentForm } from "@/components/ui/forms/ChannelAppointmentForm";
+import  ChannelAppointmentForm  from "@/components/ui/forms/ChannelAppointmentForm";
 
 export default function UploadLabRepor() {
   return (

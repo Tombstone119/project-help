@@ -111,26 +111,9 @@ export default function ChannelAppointmentForm() {
     console.log({ values });
   };
 
-  // const isAllowedDate = (date: Date): boolean => {
-  //   return allowedDates.some((allowedDate) => {
-  //     return (
-  //       allowedDate.getFullYear() === date.getFullYear() &&
-  //       allowedDate.getMonth() === date.getMonth() &&
-  //       allowedDate.getDate() === date.getDate()
-  //     );
-  //   });
-  // };
 
   const [date, setDate] = React.useState<Date>()
-  // const [startDate, setStartDate] = useState<Date | null>(null); // ✅ Define state
 
-  // const renderDayContents = (day: number, date: Date) => {
-  //   return (
-  //     <div className={isAllowedDate(date) ? "bg-blue-300 rounded-full" : ""}>
-  //       {day}
-  //     </div>
-  //   );
-  // };
 
   return (
     <div>
@@ -341,35 +324,6 @@ export default function ChannelAppointmentForm() {
               )}
             />
             {/* ======================================= */}
-            {/* ============Form Section================*/}
-            {/* <FormField
-                control={form.control}
-                name="appointmentDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Date of Birth </FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        selected={startDate} // ✅ No more "cannot find name 'startDate'" error
-                        onChange={(date) => {
-                          if (date && isAllowedDate(date)) {
-                            setStartDate(date);
-                            field.onChange(date.toISOString()); // Convert date to string if needed
-                          } else {
-                            alert("Please select an allowed date.");
-                          }
-                        }}
-                        filterDate={(date) => isAllowedDate(date)} // Allow selection only on valid dates
-                        placeholderText="Select a date"
-                        renderDayContents={renderDayContents} // Highlight allowed dates
-                        aria-label="Appointment Date"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-            {/* =======================================*/}
             {/* ============Form Section===============*/}
             <FormField
               control={form.control}
