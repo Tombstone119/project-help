@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Popover,
   PopoverContent,
@@ -35,20 +36,16 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 
-
-
-
 const allowedDates = [
   new Date("2023-01-01"),
   new Date("2023-01-15"),
   new Date("2025-04-16"),
-  new Date("2025-03-01"), 
-  new Date("2025-03-10"), 
-  new Date("2025-03-20"), 
-  new Date("2025-04-01"), 
+  new Date("2025-03-01"),
+  new Date("2025-03-10"),
+  new Date("2025-03-20"),
+  new Date("2025-04-01"),
   new Date("2025-05-05"),
 ];
-
 
 // Helper function to check if a date is allowed
 const isDateAllowed = (date: Date) => {
@@ -56,10 +53,6 @@ const isDateAllowed = (date: Date) => {
     (allowedDate) => allowedDate.toDateString() === date.toDateString()
   );
 };
-
-
-
-
 
 const isValidDate = (val: string) => !isNaN(Date.parse(val));
 
@@ -111,9 +104,7 @@ export default function ChannelAppointmentForm() {
     console.log({ values });
   };
 
-
-  const [date, setDate] = React.useState<Date>()
-
+  const [date, setDate] = React.useState<Date>();
 
   return (
     <div>
@@ -314,7 +305,7 @@ export default function ChannelAppointmentForm() {
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
-                      placeholder="e.g., example@domain.com"
+                      placeholder="e.g. silva.pulindu@gmail.com"
                       type="email"
                       {...field}
                     />
@@ -324,38 +315,44 @@ export default function ChannelAppointmentForm() {
               )}
             />
             {/* ======================================= */}
-            {/* ============Form Section===============*/}
+            {/* ============Form Section=============== */}
             <FormField
               control={form.control}
-              name="appointmentTime"
+              name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Type: </FormLabel>
+                  <FormLabel>Adderess</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select an account type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="personal">Personal</SelectItem>
-                        <SelectItem value="company">Company</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Input
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
+                      placeholder="e.g. 80 C duunagaha"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {/* =======================================*/}
-            {/* ============Form Section===============*/}
+            {/* ======================================= */}
+            {/* ============Form Section=============== */}
             <FormField
               control={form.control}
               name="appointmentDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Available dates</FormLabel>
+                  <FormLabel>Available dates </FormLabel>
                   <FormControl>
-                    <Popover>
+                    <Popover
+                      onOpenChange={(open) => {
+                        if (open) {
+                          const calendarGrid = document.querySelector(
+                            "[role='grid']"
+                          ) as HTMLElement | null;
+                          calendarGrid?.focus();
+                        }
+                      }}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant={"outline"}
@@ -372,22 +369,27 @@ export default function ChannelAppointmentForm() {
                           )}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={(selectedDate: Date | undefined) => {
-                            if (selectedDate && isDateAllowed(selectedDate)) {
-                              setDate(selectedDate);
-                              field.onChange(selectedDate); // Update the field value
-                            }
-                          }}
-                          initialFocus
-                          // Implement a prop that your library uses for disabling days
-                          // For example, if your library supports a 'disabled' prop
-                          disabled={day => !isDateAllowed(day as Date)}
-                        />
-                      </PopoverContent>
+                      <div className="relative">
+                        <PopoverContent className="w-auto p-0">
+                          <div className="p-2">
+                            <Calendar
+                              mode="single"
+                              selected={date}
+                              onSelect={(selectedDate: Date | undefined) => {
+                                if (
+                                  selectedDate &&
+                                  isDateAllowed(selectedDate)
+                                ) {
+                                  setDate(selectedDate);
+                                  field.onChange(selectedDate);
+                                }
+                              }}
+                              disabled={(day) => !isDateAllowed(day)}
+                              className="w-[280px] border rounded-md shadow-md p-2"
+                            />
+                          </div>
+                        </PopoverContent>
+                      </div>
                     </Popover>
                   </FormControl>
                   <FormMessage />
@@ -395,6 +397,61 @@ export default function ChannelAppointmentForm() {
               )}
             />
             {/* =======================================*/}
+            {/* ============Form Section=============== */}
+            <FormField
+              control={form.control}
+              name="appointmentTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Appointment Time</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select time" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="08:00 AM">08:00 AM</SelectItem>
+                      <SelectItem value="10:00 AM">10:00 AM</SelectItem>
+                      <SelectItem value="12:00 PM">12:00 PM</SelectItem>
+                      <SelectItem value="02:00 PM">02:00 PM</SelectItem>
+                      <SelectItem value="04:00 PM">04:00 PM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* ======================================= */}
+            {/* ============Form Section=============== */}
+            <FormField
+              control={form.control}
+              name="paymentStatus"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Payment Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="pay now">Pay Now</SelectItem>
+                      <SelectItem value="pay later">Pay Later</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* ======================================= */}
           </form>
         </Form>
       </div>
