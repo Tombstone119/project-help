@@ -4,6 +4,12 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import * as React from "react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+/* shadcn imports */
 import {
   Form,
   FormControl,
@@ -19,7 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import {
   Popover,
   PopoverContent,
@@ -27,15 +32,11 @@ import {
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
-
-import * as React from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 
+
+// The allowed dates for the appointment
 const allowedDates = [
   new Date("2023-01-01"),
   new Date("2023-01-15"),
@@ -47,17 +48,18 @@ const allowedDates = [
   new Date("2025-05-05"),
 ];
 
-// Helper function to check if a date is allowed
+// Helper function to check if a date is within the allowed dates
 const isDateAllowed = (date: Date) => {
   return allowedDates.some(
     (allowedDate) => allowedDate.toDateString() === date.toDateString()
   );
 };
 
+// date validater function
 const isValidDate = (val: string) => !isNaN(Date.parse(val));
 
+// form schema object
 const formSchema = z
-
   .object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
@@ -81,7 +83,10 @@ const formSchema = z
     path: ["appointmentDate"],
   });
 
+
 export default function ChannelAppointmentForm() {
+
+  // form initializer
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -100,11 +105,15 @@ export default function ChannelAppointmentForm() {
     },
   });
 
+  // date initilizer
+  const [date, setDate] = React.useState<Date>();
+  
+  // submit handler
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     console.log({ values });
   };
-
-  const [date, setDate] = React.useState<Date>();
+  
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
