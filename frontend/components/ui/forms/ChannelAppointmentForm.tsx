@@ -107,12 +107,12 @@ export default function ChannelAppointmentForm() {
   const [date, setDate] = React.useState<Date>();
 
   return (
-    <div>
-      <div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-4"
+            className="grid grid-cols-1 gap-4"
           >
             {/* =======================================*/}
             {/* ============Form Section===============*/}
@@ -121,7 +121,7 @@ export default function ChannelAppointmentForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">First Name</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -138,10 +138,10 @@ export default function ChannelAppointmentForm() {
             {/* ============Form Section===============*/}
             <FormField
               control={form.control}
-              name="firstName"
+              name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Last Name</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -161,7 +161,7 @@ export default function ChannelAppointmentForm() {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Date of Birth</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -183,7 +183,7 @@ export default function ChannelAppointmentForm() {
               name="gender"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Gender</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -223,7 +223,7 @@ export default function ChannelAppointmentForm() {
               name="maritalState"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Marital State</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Marital State</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -261,7 +261,7 @@ export default function ChannelAppointmentForm() {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Phone Number</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -281,7 +281,7 @@ export default function ChannelAppointmentForm() {
               name="alternativePhoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Alternative Phone Number</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Alternative Phone Number</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -301,7 +301,7 @@ export default function ChannelAppointmentForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -321,7 +321,7 @@ export default function ChannelAppointmentForm() {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Adderess</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Adderess</FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -341,7 +341,7 @@ export default function ChannelAppointmentForm() {
               name="appointmentDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Available dates </FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Available dates </FormLabel>
                   <FormControl>
                     <Popover
                       onOpenChange={(open) => {
@@ -403,7 +403,7 @@ export default function ChannelAppointmentForm() {
               name="appointmentTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Appointment Time</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Appointment Time</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -432,7 +432,7 @@ export default function ChannelAppointmentForm() {
               name="paymentStatus"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Payment Status</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Payment Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
