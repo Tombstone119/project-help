@@ -1,10 +1,5 @@
-
-/******************************************************************************
-                              Enums
-******************************************************************************/
-
 export enum NodeEnvs {
-  Dev = 'development',
-  Test = 'test',
-  Production = 'production'
+  Dev = "development",
+  Test = "test",
+  Production = "production",
 }

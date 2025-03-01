@@ -1,9 +1,4 @@
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
-
-
-/******************************************************************************
-                              Classes
-******************************************************************************/
+import HttpStatusCodes from "@src/common/HttpStatusCodes";
 
 /**
  * Error with status code and message.
@@ -21,7 +16,7 @@ export class RouteError extends Error {
  * Validation in route layer errors.
  */
 export class ValidationErr extends RouteError {
-  public static MSG = 'One or more parameters were missing or invalid.';
+  public static MSG = "One or more parameters were missing or invalid.";
 
   public constructor(errObj: unknown) {
     const msg = JSON.stringify({

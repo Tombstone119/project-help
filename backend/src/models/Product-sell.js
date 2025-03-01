@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
@@ -21,12 +21,12 @@ const productSchema = new Schema({
     type: String,
     required: true,
     enum: [
-      'Herbal Supplements',
-      'Ayurvedic Oils',
-      'Personal Care Products',
-      'Ayurvedic Teas and Beverages',
-      'Ayurvedic Medicines',
-    ], // Updated categories
+      "Herbal Supplements",
+      "Ayurvedic Oils",
+      "Personal Care Products",
+      "Ayurvedic Teas and Beverages",
+      "Ayurvedic Medicines",
+    ],
   },
   stock: {
     type: Number,
@@ -34,26 +34,30 @@ const productSchema = new Schema({
     min: 0,
     default: 1,
   },
-  images: [{
-    type: String, // URLs to product images
-    required: true,
-  }],
+  images: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   ratings: {
     type: Number,
     min: 0,
     max: 5,
     default: 0,
   },
-  reviews: [{
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
-    comment: { type: String, required: true },
-    rating: { type: Number, min: 0, max: 5, required: true },
-  }],
+  reviews: [
+    {
+      user: { type: Schema.Types.ObjectId, ref: "User" },
+      comment: { type: String, required: true },
+      rating: { type: Number, min: 0, max: 5, required: true },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
 module.exports = Product;
