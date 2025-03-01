@@ -1,13 +1,11 @@
-import { isNumber } from 'jet-validators';
-import { transform } from 'jet-validators/utils';
+import { isNumber } from "jet-validators";
+import { transform } from "jet-validators/utils";
 
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
-import UserService from '@src/services/UserService';
-import User from '@src/models/User';
+import HttpStatusCodes from "@src/common/HttpStatusCodes";
+import UserService from "@src/services/UserService";
+import User from "@src/types/user";
 
-
-import { parseReq, IReq, IRes } from './common';
-
+import { parseReq, IReq, IRes } from "./common";
 
 /******************************************************************************
                                 Variables
@@ -19,7 +17,6 @@ const Validators = {
   delete: parseReq({ id: transform(Number, isNumber) }),
 } as const;
 
-
 /******************************************************************************
                                 Functions
 ******************************************************************************/
@@ -29,6 +26,7 @@ const Validators = {
  */
 async function getAll(_: IReq, res: IRes) {
   const users = await UserService.getAll();
+
   res.status(HttpStatusCodes.OK).json({ users });
 }
 
@@ -58,7 +56,6 @@ async function delete_(req: IReq, res: IRes) {
   await UserService.delete(id);
   res.status(HttpStatusCodes.OK).end();
 }
-
 
 /******************************************************************************
                                 Export default

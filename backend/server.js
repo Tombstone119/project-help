@@ -8,7 +8,7 @@ const app = express();
 dotenv.config();
 
 // Connect to MongoDB
-const URL = process.env.MONGODB_URL;
+const URL = process.env.MONGODB_URL || 8081;
 mongoose
   .connect(URL)
   .then(() => {
@@ -22,6 +22,11 @@ mongoose
 
 // Middleware -->
 app.use(express.json());
+// Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Something went wrong!');
+// });
 
 // Routes -->
 // app.use(cors());

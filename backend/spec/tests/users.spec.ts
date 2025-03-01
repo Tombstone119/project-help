@@ -5,7 +5,7 @@ import { parseJson, customDeepCompare } from "jet-validators/utils";
 import app from "@src/server_old";
 
 import UserRepo from "@src/repos/UserRepo";
-import User, { IUser } from "@src/models/User";
+import User, { IUser } from "@src/types/user";
 import { USER_NOT_FOUND_ERR } from "@src/services/UserService";
 
 import HttpStatusCodes from "@src/common/HttpStatusCodes";

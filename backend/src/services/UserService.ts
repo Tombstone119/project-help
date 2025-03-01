@@ -1,73 +1,52 @@
-import { RouteError } from '@src/common/route-errors';
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import { IUser } from "@src/types/user";
+const User = require("../models/userModel");
 
-import UserRepo from '@src/repos/UserRepo';
-import { IUser } from '@src/models/User';
-
-
-/******************************************************************************
-                                Variables
-******************************************************************************/
-
-export const USER_NOT_FOUND_ERR = 'User not found';
-
-
-/******************************************************************************
-                                Functions
-******************************************************************************/
-
-/**
- * Get all users.
- */
-function getAll(): Promise<IUser[]> {
-  return UserRepo.getAll();
+async function getAll(): Promise<IUser[]> {
+  const allUsers = await User.find();
+  return allUsers;
 }
 
-/**
- * Add one user.
- */
-function addOne(user: IUser): Promise<void> {
-  return UserRepo.add(user);
+async function findUserById(id: string): Promise<void> {
+  const user = await User.findById(id);
+  return user;
 }
 
-/**
- * Update one user.
- */
-async function updateOne(user: IUser): Promise<void> {
-  const persists = await UserRepo.persists(user.id);
-  if (!persists) {
-    throw new RouteError(
-      HttpStatusCodes.NOT_FOUND,
-      USER_NOT_FOUND_ERR,
-    );
-  }
-  // Return user
-  return UserRepo.update(user);
+async function createUser(user: IUser): Promise<void> {
+  const newUser = new User({
+    name: user.name,
+    email: user.email,
+  });
+  await newUser.save();
+  return newUser;
 }
 
-/**
- * Delete a user by their id.
- */
-async function _delete(id: number): Promise<void> {
-  const persists = await UserRepo.persists(id);
-  if (!persists) {
-    throw new RouteError(
-      HttpStatusCodes.NOT_FOUND,
-      USER_NOT_FOUND_ERR,
-    );
-  }
-  // Delete user
-  return UserRepo.delete(id);
+async function updateUser({
+  id,
+  user,
+}: {
+  id: string;
+  user: IUser;
+}): Promise<void> {
+  const updatedProduct = await User.findByIdAndUpdate(
+    id,
+    {
+      name: user.name,
+      email: user.email,
+    },
+    { new: true }
+  );
+  return updatedProduct;
 }
 
-
-/******************************************************************************
-                                Export default
-******************************************************************************/
+async function deleteUser(id: string): Promise<void> {
+  const deletedProduct = await User.findByIdAndDelete(id);
+  return deletedProduct;
+}
 
 export default {
   getAll,
-  addOne,
-  updateOne,
-  delete: _delete,
+  findUserById,
+  createUser,
+  updateUser,
+  deleteUser,
 } as const;

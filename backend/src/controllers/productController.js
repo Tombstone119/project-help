@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (_, res) => {
   try {
     const allProducts = await Product.find();
     res.status(200).json({
@@ -15,10 +15,47 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error...",
+    });
+  }
+};
+
 const createProduct = async (req, res) => {
   try {
-    const { name, price, description, category } = req.body;
-    const newProduct = new Product({ name, price, description, category });
+    const {
+      name,
+      description,
+      price,
+      category,
+      stock,
+      images,
+      ratings,
+      reviews,
+    } = req.body;
+    const newProduct = new Product({
+      name,
+      description,
+      price,
+      category,
+      stock,
+      images,
+      ratings,
+      reviews,
+    });
     await newProduct.save();
     res.status(201).json({
       success: true,
@@ -35,10 +72,19 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, price, description, category } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      stock,
+      images,
+      ratings,
+      reviews,
+    } = req.body;
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
-      { name, price, description, category },
+      { name, description, price, category, stock, images, ratings, reviews },
       { new: true }
     );
     res.status(200).json({
@@ -74,6 +120,7 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
