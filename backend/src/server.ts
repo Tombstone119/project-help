@@ -17,9 +17,6 @@ app.use(express.json()); // set req.body as a JSON
 // 🔥 Routes -->
 app.use("/api", apiRouter);
 
-// 🔥 Error handling middleware
-// app.use(errorHandler);
-
 // 🔥 Start server -->
 app
   .listen(PORT, () => {
