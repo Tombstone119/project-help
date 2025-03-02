@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import HttpStatusCodes from "./HttpStatusCodes.ts";
+import HttpStatusCodes from "./httpStatusCodessss.ts";
 
 export const handleError = (res: Response, error: any) => {
   console.error(error);
