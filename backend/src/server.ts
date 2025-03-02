@@ -1,14 +1,15 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-// const cors = require("cors");
-const productsRoute = require("./src/routes/productRoute.ts");
+import mongoose from "mongoose";
+import express from "express";
+
+import "dotenv/config";
+// import dotenv from 'dotenv';
+// dotenv.config();
+
+import productsRoute from "./routes/productRoute.js";
+
 const app = express();
-
-dotenv.config();
-
 // Connect to MongoDB
-const URL = process.env.MONGODB_URL || 8081;
+const URL = process.env.MONGODB_URL || "8081";
 mongoose
   .connect(URL)
   .then(() => {
@@ -22,15 +23,6 @@ mongoose
 
 // Middleware -->
 app.use(express.json());
-// Error handling middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send('Something went wrong!');
-// });
-
-// Routes -->
-// app.use(cors());
-// app.use(bodyParser.json());
 
 app.get("/", (_, res) => {
   res.send("Backend API");

@@ -1,17 +1,17 @@
-import { IUser } from "@src/types/user";
-const User = require("../models/userModel");
+import { IUser } from "../types/user.ts";
+import User from "../models/userModel.ts";
 
-async function getAll(): Promise<IUser[]> {
+async function getAll(): Promise<any> {
   const allUsers = await User.find();
   return allUsers;
 }
 
-async function findUserById(id: string): Promise<void> {
+async function findById(id: string): Promise<any> {
   const user = await User.findById(id);
   return user;
 }
 
-async function createUser(user: IUser): Promise<void> {
+async function create(user: IUser): Promise<any> {
   const newUser = new User({
     name: user.name,
     email: user.email,
@@ -20,14 +20,8 @@ async function createUser(user: IUser): Promise<void> {
   return newUser;
 }
 
-async function updateUser({
-  id,
-  user,
-}: {
-  id: string;
-  user: IUser;
-}): Promise<void> {
-  const updatedProduct = await User.findByIdAndUpdate(
+async function update({ id, user }: { id: string; user: IUser }): Promise<any> {
+  const updatedUser = await User.findByIdAndUpdate(
     id,
     {
       name: user.name,
@@ -35,18 +29,18 @@ async function updateUser({
     },
     { new: true }
   );
-  return updatedProduct;
+  return updatedUser;
 }
 
-async function deleteUser(id: string): Promise<void> {
-  const deletedProduct = await User.findByIdAndDelete(id);
-  return deletedProduct;
+async function findAndDelete(id: string): Promise<any> {
+  const deletedUser = await User.findByIdAndDelete(id);
+  return deletedUser;
 }
 
 export default {
   getAll,
-  findUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-} as const;
+  findById,
+  create,
+  update,
+  findAndDelete,
+};

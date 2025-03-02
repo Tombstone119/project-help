@@ -1,6 +1,6 @@
-import HttpStatusCodes from "@src/common/HttpStatusCodes";
+import HttpStatusCodes from "../util/HttpStatusCodes.ts";
 
-import userService from "@src/services/UserService";
+import userService from "../services/UserService.ts";
 import { Request, Response } from "express";
 
 const getAllUsers = async (_: Request, res: Response) => {
