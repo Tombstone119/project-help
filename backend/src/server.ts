@@ -5,7 +5,8 @@ import "dotenv/config";
 // import dotenv from 'dotenv';
 // dotenv.config();
 
-import productsRoute from "./routes/productRoute.js";
+import productsRoute from "./routes/productRoute.ts";
+import usersRoute from "./routes/userRoute.ts";
 
 const app = express();
 // Connect to MongoDB
@@ -28,6 +29,7 @@ app.get("/", (_, res) => {
   res.send("Backend API");
 });
 app.use("/api", productsRoute);
+app.use("/api", usersRoute);
 
 // Start server -->
 const PORT = process.env.PORT;

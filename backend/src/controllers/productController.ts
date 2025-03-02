@@ -2,6 +2,7 @@ import Product from "../models/productModel.ts";
 import HttpStatusCodes from "../util/HttpStatusCodes.ts";
 import productServices from "../services/productServices.ts";
 import { Response, Request } from "express";
+import { handleError } from "../util/errorHandler.ts";
 
 export const getAllProducts = async (
   _: Request,
@@ -14,10 +15,7 @@ export const getAllProducts = async (
       products: allProducts,
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };
 
@@ -31,17 +29,15 @@ export const getProductById = async (
     if (!product) {
       res
         .status(HttpStatusCodes.NOT_FOUND)
-        .json({ message: "Product not found." });
+        .json({ success: true, message: "Product not found." });
+      return;
     }
     res.status(HttpStatusCodes.OK).json({
       success: true,
       product,
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };
 
@@ -65,10 +61,7 @@ export const createProduct = async (
       product: newProduct,
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };
 
@@ -98,10 +91,7 @@ export const updateProduct = async (
       product: updatedProduct,
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };
 
@@ -115,16 +105,14 @@ export const deleteProduct = async (
     if (!deletedProduct) {
       res
         .status(HttpStatusCodes.NOT_FOUND)
-        .json({ message: "Product not found." });
+        .json({ success: true, message: "Product not found." });
+      return;
     }
     res.status(HttpStatusCodes.OK).json({
       success: true,
       message: "Product deleted successfully.",
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };

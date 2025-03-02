@@ -1,23 +1,17 @@
 import HttpStatusCodes from "../util/HttpStatusCodes.ts";
 
-import userService from "../services/UserService.ts";
+import userService from "../services/UserServicex.ts";
 import { Request, Response } from "express";
+import { handleError } from "../util/errorHandler.ts";
 
-const getAllUsers = async (_: Request, res: Response) => {
+export const getAllUsers = async (_: Request, res: Response) => {
   try {
-    const allProducts = userService.getAll();
+    const allUsers = await userService.getAll();
     res.status(HttpStatusCodes.OK).json({
       success: true,
-      products: allProducts,
+      users: allUsers,
     });
   } catch (error) {
-    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: "Internal Server Error...",
-    });
+    handleError(res, error);
   }
 };
-
-export default {
-  getAllUsers,
-} as const;
