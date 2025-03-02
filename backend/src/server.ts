@@ -1,12 +1,9 @@
 import express from "express";
 
 import "dotenv/config";
-// import dotenv from 'dotenv';
-// dotenv.config();
 
 import apiRouter from "./routes/index.ts";
 import { connectToMongoDB } from "./util/dbConnector.ts";
-import { errorHandler } from "./middlewares/errorHandler.ts";
 
 const app = express();
 const PORT = process.env.PORT;
