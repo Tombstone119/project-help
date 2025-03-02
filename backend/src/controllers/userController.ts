@@ -1,4 +1,4 @@
-import HttpStatusCodes from "../util/httpStatusCodes.ts";
+import HttpStatusCodes from "../util/statusCodes.ts";
 
 import userService from "../services/UserService.ts";
 import { Request, Response } from "express";
