@@ -1,6 +1,6 @@
 import HttpStatusCodes from "../util/statusCodes.ts";
 
-import userService from "../services/UserService.ts";
+import userService from "../services/userService.ts";
 import { Request, Response } from "express";
 import { handleError } from "../util/errorHandler.ts";
 
