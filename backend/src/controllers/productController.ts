@@ -1,5 +1,5 @@
 import Product from "../models/productModel.ts";
-import HttpStatusCodes from "../util/httpStatusCodes.ts";
+import HttpStatusCodes from "../util/statusCodes.ts";
 import productServices from "../services/productService.ts";
 import { Response, Request } from "express";
 import { handleError } from "../util/errorHandler.ts";
