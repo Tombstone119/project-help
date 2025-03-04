@@ -10,5 +10,10 @@ export default async function page() {
   // );
   const products = [] as IProduct[];
 
-  return <TestForm products={ products }/>;
+  return (
+    <div>
+      { process?.env?.NEXT_PUBLIC_API_URL || "no url" }
+      <TestForm products={ products }/>
+    </div>
+)
 }
