@@ -21,8 +21,9 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true, // Automatically manage createdAt and updatedAt
+    collection: "user"
   }
 );
 
-const UserModel = model("Users", UserSchema);
+const UserModel = model("user", UserSchema);
 export default UserModel;

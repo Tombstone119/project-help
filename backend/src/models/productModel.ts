@@ -58,8 +58,9 @@ const ProductSchema = new Schema(
   },
   {
     timestamps: true, // Automatically manage createdAt and updatedAt
+    collection: "product"
   }
 );
 
-const ProductModel = model("Products", ProductSchema);
+const ProductModel = model("product", ProductSchema);
 export default ProductModel;
