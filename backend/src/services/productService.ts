@@ -1,5 +1,4 @@
 import { IProduct } from "../types/product.ts";
-
 import Product from "../models/productModel.ts";
 
 async function getAll() {
