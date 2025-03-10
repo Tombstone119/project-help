@@ -71,7 +71,6 @@ const formSchema = z
     email: z.string().email("Invalid email format"),
     address: z.string().min(5, "Address must be at least 5 characters"),
     appointmentDate: z.string(),
-    appointmentTime: z.string(),
     paymentStatus: z.enum(["pay now", "pay later"]),
   })
   .refine((data) => isValidDate(data.dateOfBirth), {
@@ -100,7 +99,6 @@ export default function ChannelAppointmentForm() {
       email: "",
       address: "",
       appointmentDate: "",
-      appointmentTime: "",
       paymentStatus: "pay later",
     },
   });
@@ -405,36 +403,7 @@ export default function ChannelAppointmentForm() {
                 </FormItem>
               )}
             />
-            {/* =======================================*/}
-            {/* ============Form Section=============== */}
-            <FormField
-              control={form.control}
-              name="appointmentTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Appointment Time</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select time" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="08:00 AM">08:00 AM</SelectItem>
-                      <SelectItem value="10:00 AM">10:00 AM</SelectItem>
-                      <SelectItem value="12:00 PM">12:00 PM</SelectItem>
-                      <SelectItem value="02:00 PM">02:00 PM</SelectItem>
-                      <SelectItem value="04:00 PM">04:00 PM</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* ======================================= */}
+            {/* ========================================*/}
             {/* ============Form Section=============== */}
             <FormField
               control={form.control}
