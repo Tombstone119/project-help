@@ -2,6 +2,11 @@ import { Schema, model } from "mongoose";
 
 const AppointmentSchema = new Schema(
   {
+    referenceNumber: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,
@@ -51,10 +56,6 @@ const AppointmentSchema = new Schema(
       type: Date,
       required: true,
     },
-    appointmentTime: {
-      type: String,
-      required: true,
-    },
     paymentStatus: {
       type: String,
       required: true,
@@ -63,7 +64,7 @@ const AppointmentSchema = new Schema(
   },
   {
     timestamps: true,
-    collection: "appointments"
+    collection: "appointments",
   }
 );
 
