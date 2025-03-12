@@ -6,7 +6,7 @@ import HttpStatusCodes from "../util/statusCodes.ts";
 import { handleError } from "../util/errorHandler.ts";
 
 /******************************************************************************
-                                Create
+                                POST
 ******************************************************************************/
 
 export const createPatientAppointment = async (
@@ -18,7 +18,7 @@ export const createPatientAppointment = async (
     //const patientId = req.user.id;
     
     const newAppointment = await appointmentService.createAppointmentByPatient({
-      patientId: "1234",
+      patientId: "5678",
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       dateOfBirth: req.body.dateOfBirth,
@@ -56,6 +56,106 @@ export const createDoctorAppointment = async (
     res.status(HttpStatusCodes.CREATED).json({
       success: true,
       appointment: newAppointment,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+
+/******************************************************************************
+                                GET_ALL
+******************************************************************************/
+
+
+// Get all appointments by patient ID
+export const getAllByPatientId = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { patientId } = req.params;
+    const appointments = await appointmentService.getAllByPatientId(patientId);
+    
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+// Get all appointments for a specific date
+export const getAllByDate = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { date } = req.params;
+    const appointments = await appointmentService.getAllByDate(date);
+    
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+// Get all appointments
+export const getAllAppointments = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const appointments = await appointmentService.getAllAppointments();
+    
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+/******************************************************************************
+                                GET
+******************************************************************************/
+
+// Find an appointment by reference number
+export const findByRefNo = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { refNo } = req.params;
+    const appointment = await appointmentService.findByRefNo(refNo);
+    
+    if (!appointment) {
+      res.status(HttpStatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Appointment not found.",
+      });
+      return;
+    }
+
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      appointment,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+// Get patient ID by reference number
+export const getPatientIdByRefNo = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { refNo } = req.params;
+    const patientId = await appointmentService.getPatientIdByRefNo(refNo);
+    
+    if (!patientId) {
+      res.status(HttpStatusCodes.FORBIDDEN).json({
+        success: false,
+        message: "No access to vitals.",
+      });
+      return;
+    }
+
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      patientId,
     });
   } catch (error) {
     handleError(res, error);

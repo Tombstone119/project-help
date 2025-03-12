@@ -1,11 +1,11 @@
 //! TODO: generate referance number
 //! TODO: make createAppointmentByPatient function for the appointment booking page {this function used by patient to book}
 //! TODO: make createAppointmentByAdmin function for appointment management page {this function used by admin to book}
-// TODO: make getAllByPatientId for the appointment view page {it returns all appointments for a particular patient to the patient}
-// TODO: make getAllByDate returns all appointments for the particular date for the queue management panel
-// TODO: make getAll returns all the appointments may be for the
-// TODO: make findByRefNo function for the view my queue no page, may be for the admin
-// TODO: make getPatientIdByRefNo to get the patient id through ref no to give access to the vitals
+//! TODO: make getAllByPatientId for the appointment view page {it returns all appointments for a  patient to the patient}
+//! TODO: make getAllByDate returns all appointments for the particular date for the queue management panel
+//! TODO: make getAll returns all the appointments may be for the
+//! TODO: make findByRefNo function for the view my queue no page, may be for the admin
+//! TODO: make getPatientIdByRefNo to get the patient id through ref no to give access to the vitals
 // TODO: make update/reschedule for view appoinment page
 // TODO: make delete for view appoinment page and appointment management page
 // TODO: make deleteAllByDate delete all appointment after a day
@@ -97,6 +97,58 @@ async function createAppointmentByDoctor(appointment: IDoctorAppointment) {
   }
 }
 
+/**
+ ** returns list of all the appointments made by a particular patient
+ *! login is required
+ **/
+async function getAllByPatientId(patientId: string) {
+  const appointment = await AppointmentModel.find({ patientId });
+  return appointment;
+}
+
+/**
+ ** returns list of all the appointments made in a particular date
+ *! login is not required
+ **/
+async function getAllByDate(date: string | Date) {
+  const start = new Date(date);
+  start.setHours(0, 0, 0, 0); // Start of the day
+
+  const end = new Date(date);
+  end.setHours(23, 59, 59, 999); // End of the day
+
+  return await AppointmentModel.find({
+    appointmentDate: { $gte: start, $lte: end }
+  }); 
+}
+
+/**
+ ** returns list of all the appointments 
+ *! login is not required
+ **/
+async function getAllAppointments() {
+  const allAppointments = await AppointmentModel.find();
+  return allAppointments;
+}
+
+/**
+ ** returns a single appointment for view queue no page used by patient 
+ *! login is not required
+ **/
+async function findByRefNo(referenceNumber: string) {
+  return await AppointmentModel.findOne({ referenceNumber });
+}
+
+/**
+ ** returns the patient id for a appointment used by doctor to fetch date for vitals
+ *! login is not required
+ *! if patientId == null ? no access for the vitals
+ **/
+async function getPatientIdByRefNo(referenceNumber: string) {
+  const appointment = await AppointmentModel.findOne({ referenceNumber }).select('patientId');
+  return appointment?.patientId || "user not found";
+}
+
 /******************************************************************************
                                 Export default
 ******************************************************************************/
@@ -105,4 +157,10 @@ export default {
   generateSequentialReference,
   createAppointmentByPatient,
   createAppointmentByDoctor,
+
+  getAllByPatientId,
+  getAllByDate,
+  getAllAppointments,
+  findByRefNo,
+  getPatientIdByRefNo,  
 };
