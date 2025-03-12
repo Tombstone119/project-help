@@ -161,3 +161,49 @@ export const getPatientIdByRefNo = async (req: Request, res: Response): Promise<
     handleError(res, error);
   }
 };
+
+// Delete appointment by reference number
+export const deleteAppointmentByRefNo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { refNo } = req.params;
+    const deletedAppointment = await appointmentService.deleteByRefNo(refNo);
+    if (!deletedAppointment) {
+      res
+        .status(HttpStatusCodes.NOT_FOUND)
+        .json({ success: true, message: "Appointment not found." });
+      return;
+    }
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      message: "Appointment deleted successfully.",
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+// Delete all appointments by date
+export const deleteAllAppointmentsByDate = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { date } = req.params;
+    const deletedAppointments = await appointmentService.deleteAllByDate(date);
+    if (!deletedAppointments) {
+      res
+        .status(HttpStatusCodes.NOT_FOUND)
+        .json({ success: true, message: "Appointments not found for the required date." });
+      return;
+    }
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      message: "Appointments deleted successfully.",
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};

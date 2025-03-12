@@ -7,8 +7,8 @@
 //! TODO: make findByRefNo function for the view my queue no page, may be for the admin
 //! TODO: make getPatientIdByRefNo to get the patient id through ref no to give access to the vitals
 // TODO: make update/reschedule for view appoinment page
-// TODO: make delete for view appoinment page and appointment management page
-// TODO: make deleteAllByDate delete all appointment after a day
+//! TODO: make delete for view appoinment page and appointment management page
+//! TODO: make deleteAllByDate delete all appointment after a day
 
 import {
   IPatientAppointment,
@@ -149,6 +149,33 @@ async function getPatientIdByRefNo(referenceNumber: string) {
   return appointment?.patientId || "user not found";
 }
 
+/**
+ ** deletes an appointment using referance no
+ *! login is required
+ **/
+async function deleteByRefNo(referenceNumber: string) {
+  const deletedAppointment = await AppointmentModel.findOneAndDelete({referenceNumber});
+  return deletedAppointment;
+}
+
+/**
+ ** delete all the appointments related to a specific date
+ *! login is not required
+ *! at the end of the day all records should be deleted
+ **/
+async function deleteAllByDate(date: string | Date) {
+  const start = new Date(date);
+  start.setHours(0, 0, 0, 0); // Start of the day
+
+  const end = new Date(date);
+  end.setHours(23, 59, 59, 999); // End of the day
+
+  return await AppointmentModel.deleteMany({
+    appointmentDate: { $gte: start, $lte: end }
+  }); 
+}
+
+
 /******************************************************************************
                                 Export default
 ******************************************************************************/
@@ -163,4 +190,7 @@ export default {
   getAllAppointments,
   findByRefNo,
   getPatientIdByRefNo,  
+
+  deleteByRefNo,
+  deleteAllByDate
 };

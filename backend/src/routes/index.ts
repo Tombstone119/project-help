@@ -16,6 +16,8 @@ import {
   getAllAppointments,
   findByRefNo,
   getPatientIdByRefNo,
+  deleteAppointmentByRefNo,
+  deleteAllAppointmentsByDate,
 } from "../controllers/appointmentController.ts";
 
 const router = Router();
@@ -49,42 +51,37 @@ router
 
 router
   .route("/doctorAppointments")
-  .post(createDoctorAppointment) 
+  .post(createDoctorAppointment)
   // Example: POST /api/appointments/doctorAppointments
-  
-  .get(getAllAppointments); 
-  // Example: GET /api/appointments/doctorAppointments
 
-router.route("/patientAppointments")
-  .post(createPatientAppointment); 
-  // Example: POST /api/appointments/patientAppointments
+  .get(getAllAppointments);
+// Example: GET /api/appointments/doctorAppointments
+
+router.route("/patientAppointments").post(createPatientAppointment);
+// Example: POST /api/appointments/patientAppointments
 
 // api/appointments/:id
 
-router.route("/appointments/patient/:patientId")
-  .get(getAllByPatientId); 
-  // Example: GET /api/appointments/patient/5678
+router.route("/appointments/patient/:patientId").get(getAllByPatientId);
+// Example: GET /api/appointments/patient/5678
 
-router.route("/appointments/date/:date")
-  .get(getAllByDate); 
-  // Example: GET /api/appointments/date/2025-03-12
+router
+  .route("/appointments/date/:date")
+  .get(getAllByDate)
+  .delete(deleteAllAppointmentsByDate);
+// Example: GET /api/appointments/date/2023-12-25
 
-router.route("/appointments/refNo/:refNo")
-  .get(findByRefNo); 
-  // Example: GET /api/appointments/refNo/1504250001
+router
+  .route("/appointments/refNo/:refNo")
+  .get(findByRefNo)
+  .delete(deleteAppointmentByRefNo);
+// Example: GET /api/appointments/refNo/1504250001
 
-router.route("/appointments/patientIdByRefNo/:refNo")
-  .get(getPatientIdByRefNo); 
-  // Example: GET /api/appointments/patientIdByRefNo/1504250001
-
+router.route("/appointments/patientIdByRefNo/:refNo").get(getPatientIdByRefNo);
+// Example: GET /api/appointments/patientIdByRefNo/1504250001
 
 /******************************************************************************
                                 Export default
 ******************************************************************************/
-// getAllByPatientId,
-// getAllByDate,
-// getAllAppointments,
-// findByRefNo,
-// getPatientIdByRefNo,
 
 export default router;
