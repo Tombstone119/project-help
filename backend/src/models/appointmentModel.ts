@@ -1,7 +1,16 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
+
+/******************************************************************************
+                                Schemas
+******************************************************************************/
 
 const AppointmentSchema = new Schema(
   {
+    patientId: {
+      type: String, //! Temp: this is type.ObjectId until Stores the patient's _id
+      ref: "Patient", // References the Patient model
+      required: false, // Changed to false to make it optional
+    },
     referenceNumber: {
       type: String,
       unique: true,
@@ -14,21 +23,21 @@ const AppointmentSchema = new Schema(
     },
     lastName: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     dateOfBirth: {
       type: Date, 
-      required: true,
+      required: false,
     },
     gender: {
       type: String,
-      required: true,
+      required: false,
       enum: ["male", "female", "prefer not to state"],
     },
     maritalState: {
       type: String,
-      required: true,
+      required: false,
       enum: ["married", "single", "widowed"],
     },
     phoneNumber: {
@@ -42,14 +51,14 @@ const AppointmentSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
     },
     address: {
       type: String,
-      required: true,
+      required: false,
       minlength: 5,
     },
     appointmentDate: {
@@ -60,13 +69,18 @@ const AppointmentSchema = new Schema(
       type: String,
       required: true,
       enum: ["pay now", "pay later"],
+      default: "pay later"
     },
   },
   {
     timestamps: true,
-    collection: "appointments",
+    collection: "appointment",
   }
 );
+
+/******************************************************************************
+                                Export default
+******************************************************************************/
 
 const AppointmentModel = model("appointment", AppointmentSchema);
 export default AppointmentModel;

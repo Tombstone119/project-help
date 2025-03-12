@@ -1,14 +1,25 @@
-export interface IAppointment {
+
+/******************************************************************************
+                                Types
+******************************************************************************/
+
+export interface IPatientAppointment {
+  patientId?: string;
   firstName: string;
-  lastName: string;
+  lastName?: string;
   dateOfBirth: string;
-  gender: "male" | "female" | "prefer not to state";
-  maritalState: "married" | "single" | "widowed";
+  gender?: "male" | "female" | "prefer not to state";
+  maritalState?: "married" | "single" | "widowed";
   phoneNumber: string;
   alternativePhoneNumber?: string;
-  email: string;
-  address: string;
+  email?: string;
+  address?: string;
   appointmentDate: string;
-  appointmentTime: string;
-  paymentStatus: "pay now" | "pay later";
+  paymentStatus?: "pay now" | "pay later";
+}
+
+export interface IDoctorAppointment {
+  firstName: string;
+  phoneNumber: string;
+  appointmentDate: string;
 }
