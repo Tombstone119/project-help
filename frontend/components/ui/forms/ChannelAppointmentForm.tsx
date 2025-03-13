@@ -34,7 +34,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-
+import ChannelingSubmitBtn from "@/components/ui/buttons/ChannelingSubmitBtn";
 
 // The allowed dates for the appointment
 const allowedDates = [
@@ -70,21 +70,19 @@ const formSchema = z
     alternativePhoneNumber: z.string().optional(),
     email: z.string().email("Invalid email format"),
     address: z.string().min(5, "Address must be at least 5 characters"),
-    appointmentDate: z.string(),
+    appointmentDate: z.preprocess(
+      (val) => (typeof val === "string" && isValidDate(val) ? new Date(val) : val),
+      z.date()
+    ),
     paymentStatus: z.enum(["pay now", "pay later"]),
   })
   .refine((data) => isValidDate(data.dateOfBirth), {
     message: "Invalid date format",
     path: ["dateOfBirth"],
-  })
-  .refine((data) => isValidDate(data.appointmentDate), {
-    message: "Invalid date-time format",
-    path: ["appointmentDate"],
   });
 
 
 export default function ChannelAppointmentForm() {
-
   // form initializer
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,19 +96,27 @@ export default function ChannelAppointmentForm() {
       alternativePhoneNumber: "",
       email: "",
       address: "",
-      appointmentDate: "",
+      appointmentDate: undefined,
       paymentStatus: "pay later",
     },
   });
 
   // date initilizer
   const [date, setDate] = React.useState<Date>();
-  
+
   // submit handler
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      console.log("Submitting...", values);
+      // Simulate API call or actual form processing
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("Form submitted successfully!");
+    } catch (error) {
+      console.error("Submission failed:", error);
+    }
+    console.log("Form values:", values);
+    console.log("Errors:", form.formState.errors);
   };
-  
   
 
   return (
@@ -128,7 +134,9 @@ export default function ChannelAppointmentForm() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">First Name</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    First Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -148,7 +156,9 @@ export default function ChannelAppointmentForm() {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Last Name</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Last Name
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -168,7 +178,9 @@ export default function ChannelAppointmentForm() {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Date of Birth</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Date of Birth
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -190,7 +202,9 @@ export default function ChannelAppointmentForm() {
               name="gender"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-gray-700 font-medium">Gender</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Gender
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -230,7 +244,9 @@ export default function ChannelAppointmentForm() {
               name="maritalState"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-gray-700 font-medium">Marital State</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Marital State
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -268,7 +284,9 @@ export default function ChannelAppointmentForm() {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Phone Number</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Phone Number
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -288,7 +306,9 @@ export default function ChannelAppointmentForm() {
               name="alternativePhoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Alternative Phone Number</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Alternative Phone Number
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -308,7 +328,9 @@ export default function ChannelAppointmentForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
@@ -328,12 +350,14 @@ export default function ChannelAppointmentForm() {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Adderess</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Adderess
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300"
                       placeholder="e.g. 80 C duunagaha"
-                      type="email"
+                      type="text"
                       {...field}
                     />
                   </FormControl>
@@ -348,7 +372,9 @@ export default function ChannelAppointmentForm() {
               name="appointmentDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Available dates </FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Available dates{" "}
+                  </FormLabel>
                   <FormControl>
                     <Popover
                       onOpenChange={(open) => {
@@ -410,7 +436,9 @@ export default function ChannelAppointmentForm() {
               name="paymentStatus"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">Payment Status</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">
+                    Payment Status
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -430,6 +458,9 @@ export default function ChannelAppointmentForm() {
               )}
             />
             {/* ======================================= */}
+            <ChannelingSubmitBtn isLoading={form.formState.isSubmitting}>
+              Submit
+            </ChannelingSubmitBtn>
           </form>
         </Form>
       </div>
