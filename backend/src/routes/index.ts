@@ -16,6 +16,7 @@ import {
   getAllAppointments,
   findByRefNo,
   getPatientIdByRefNo,
+  rescheduleAppointmentByRefNo,
   deleteAppointmentByRefNo,
   deleteAllAppointmentsByDate,
 } from "../controllers/appointmentController.ts";
@@ -74,7 +75,8 @@ router
 router
   .route("/appointments/refNo/:refNo")
   .get(findByRefNo)
-  .delete(deleteAppointmentByRefNo);
+  .delete(deleteAppointmentByRefNo)
+  .put(rescheduleAppointmentByRefNo);
 // Example: GET /api/appointments/refNo/1504250001
 
 router.route("/appointments/patientIdByRefNo/:refNo").get(getPatientIdByRefNo);

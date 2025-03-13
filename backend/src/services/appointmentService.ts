@@ -6,7 +6,7 @@
 //! TODO: make getAll returns all the appointments may be for the
 //! TODO: make findByRefNo function for the view my queue no page, may be for the admin
 //! TODO: make getPatientIdByRefNo to get the patient id through ref no to give access to the vitals
-// TODO: make update/reschedule for view appoinment page
+//! TODO: make update/reschedule for view appoinment page
 //! TODO: make delete for view appoinment page and appointment management page
 //! TODO: make deleteAllByDate delete all appointment after a day
 
@@ -118,12 +118,12 @@ async function getAllByDate(date: string | Date) {
   end.setHours(23, 59, 59, 999); // End of the day
 
   return await AppointmentModel.find({
-    appointmentDate: { $gte: start, $lte: end }
-  }); 
+    appointmentDate: { $gte: start, $lte: end },
+  });
 }
 
 /**
- ** returns list of all the appointments 
+ ** returns list of all the appointments
  *! login is not required
  **/
 async function getAllAppointments() {
@@ -132,7 +132,7 @@ async function getAllAppointments() {
 }
 
 /**
- ** returns a single appointment for view queue no page used by patient 
+ ** returns a single appointment for view queue no page used by patient
  *! login is not required
  **/
 async function findByRefNo(referenceNumber: string) {
@@ -145,8 +145,55 @@ async function findByRefNo(referenceNumber: string) {
  *! if patientId == null ? no access for the vitals
  **/
 async function getPatientIdByRefNo(referenceNumber: string) {
-  const appointment = await AppointmentModel.findOne({ referenceNumber }).select('patientId');
+  const appointment = await AppointmentModel.findOne({
+    referenceNumber,
+  }).select("patientId");
   return appointment?.patientId || "user not found";
+}
+
+/**
+ ** /updatereschedule appointment by patient.
+ *! login is not required
+ *! date is the only thing that can be changed if the due date is one week ahead 
+ **/
+async function rescheduleAppointmentByRefNo({
+  referenceNumber,
+  appointment,
+}: {
+  referenceNumber: string;
+  appointment: IPatientAppointment;
+}) {
+  try {
+    // Note: reference number generation
+    const appointmentDate = new Date(appointment.appointmentDate);
+    const referenceNumber = await generateSequentialReference(appointmentDate);
+
+    const updatedAppointment = await AppointmentModel.findOneAndUpdate(
+      { referenceNumber }, // Find appointment by refNo
+      {firstName: appointment.firstName,
+        lastName: appointment.lastName,
+        dateOfBirth: new Date(appointment.dateOfBirth),
+        gender: appointment.gender,
+        maritalState: appointment.maritalState,
+        phoneNumber: appointment.phoneNumber,
+        alternativePhoneNumber: appointment.alternativePhoneNumber,
+        email: appointment.email,
+        address: appointment.address,
+        appointmentDate: appointmentDate,
+        paymentStatus: appointment.paymentStatus,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedAppointment) {
+      throw new Error("Appointment not found for rescheduling.");
+    }
+
+    return updatedAppointment;
+  } catch (error) {
+    console.error("Error in createAppointmentByPatient:", error);
+    throw error;
+  }
 }
 
 /**
@@ -154,7 +201,9 @@ async function getPatientIdByRefNo(referenceNumber: string) {
  *! login is required
  **/
 async function deleteByRefNo(referenceNumber: string) {
-  const deletedAppointment = await AppointmentModel.findOneAndDelete({referenceNumber});
+  const deletedAppointment = await AppointmentModel.findOneAndDelete({
+    referenceNumber,
+  });
   return deletedAppointment;
 }
 
@@ -171,10 +220,9 @@ async function deleteAllByDate(date: string | Date) {
   end.setHours(23, 59, 59, 999); // End of the day
 
   return await AppointmentModel.deleteMany({
-    appointmentDate: { $gte: start, $lte: end }
-  }); 
+    appointmentDate: { $gte: start, $lte: end },
+  });
 }
-
 
 /******************************************************************************
                                 Export default
@@ -189,8 +237,10 @@ export default {
   getAllByDate,
   getAllAppointments,
   findByRefNo,
-  getPatientIdByRefNo,  
+  getPatientIdByRefNo,
+
+  rescheduleAppointmentByRefNo,
 
   deleteByRefNo,
-  deleteAllByDate
+  deleteAllByDate,
 };

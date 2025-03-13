@@ -16,7 +16,7 @@ export const createPatientAppointment = async (
   try {
     //! Take patient Id from the session
     //const patientId = req.user.id;
-    
+
     const newAppointment = await appointmentService.createAppointmentByPatient({
       patientId: "5678",
       firstName: req.body.firstName,
@@ -31,7 +31,7 @@ export const createPatientAppointment = async (
       appointmentDate: req.body.appointmentDate,
       paymentStatus: req.body.paymentStatus,
     });
-    
+
     res.status(HttpStatusCodes.CREATED).json({
       success: true,
       appointment: newAppointment,
@@ -40,7 +40,6 @@ export const createPatientAppointment = async (
     handleError(res, error);
   }
 };
-
 
 export const createDoctorAppointment = async (
   req: Request,
@@ -52,7 +51,7 @@ export const createDoctorAppointment = async (
       phoneNumber: req.body.phoneNumber,
       appointmentDate: req.body.appointmentDate,
     });
-    
+
     res.status(HttpStatusCodes.CREATED).json({
       success: true,
       appointment: newAppointment,
@@ -62,18 +61,19 @@ export const createDoctorAppointment = async (
   }
 };
 
-
 /******************************************************************************
                                 GET_ALL
 ******************************************************************************/
 
-
 // Get all appointments by patient ID
-export const getAllByPatientId = async (req: Request, res: Response): Promise<void> => {
+export const getAllByPatientId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { patientId } = req.params;
     const appointments = await appointmentService.getAllByPatientId(patientId);
-    
+
     res.status(HttpStatusCodes.OK).json({
       success: true,
       appointments,
@@ -84,11 +84,14 @@ export const getAllByPatientId = async (req: Request, res: Response): Promise<vo
 };
 
 // Get all appointments for a specific date
-export const getAllByDate = async (req: Request, res: Response): Promise<void> => {
+export const getAllByDate = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { date } = req.params;
     const appointments = await appointmentService.getAllByDate(date);
-    
+
     res.status(HttpStatusCodes.OK).json({
       success: true,
       appointments,
@@ -99,10 +102,13 @@ export const getAllByDate = async (req: Request, res: Response): Promise<void> =
 };
 
 // Get all appointments
-export const getAllAppointments = async (_req: Request, res: Response): Promise<void> => {
+export const getAllAppointments = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const appointments = await appointmentService.getAllAppointments();
-    
+
     res.status(HttpStatusCodes.OK).json({
       success: true,
       appointments,
@@ -117,11 +123,14 @@ export const getAllAppointments = async (_req: Request, res: Response): Promise<
 ******************************************************************************/
 
 // Find an appointment by reference number
-export const findByRefNo = async (req: Request, res: Response): Promise<void> => {
+export const findByRefNo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { refNo } = req.params;
     const appointment = await appointmentService.findByRefNo(refNo);
-    
+
     if (!appointment) {
       res.status(HttpStatusCodes.NOT_FOUND).json({
         success: false,
@@ -140,11 +149,14 @@ export const findByRefNo = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Get patient ID by reference number
-export const getPatientIdByRefNo = async (req: Request, res: Response): Promise<void> => {
+export const getPatientIdByRefNo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { refNo } = req.params;
     const patientId = await appointmentService.getPatientIdByRefNo(refNo);
-    
+
     if (!patientId) {
       res.status(HttpStatusCodes.FORBIDDEN).json({
         success: false,
@@ -161,6 +173,61 @@ export const getPatientIdByRefNo = async (req: Request, res: Response): Promise<
     handleError(res, error);
   }
 };
+
+/******************************************************************************
+                                UPDATE
+******************************************************************************/
+
+export const rescheduleAppointmentByRefNo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    //! Take patient Id from the session
+    //const patientId = req.user.id;
+
+    const { referenceNumber } = req.params;
+
+    const updatedAppointment =
+      await appointmentService.rescheduleAppointmentByRefNo({
+        referenceNumber,
+        appointment: {
+          patientId: "5678",
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          dateOfBirth: req.body.dateOfBirth,
+          gender: req.body.gender,
+          maritalState: req.body.maritalState,
+          phoneNumber: req.body.phoneNumber,
+          alternativePhoneNumber: req.body.alternativePhoneNumber,
+          email: req.body.email,
+          address: req.body.address,
+          appointmentDate: req.body.appointmentDate,
+          paymentStatus: req.body.paymentStatus,
+        },
+      });
+
+    if (!updatedAppointment) {
+      res.status(HttpStatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Appointment not found or could not be rescheduled.",
+      });
+      return;
+    }
+
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      message: "Appointment successfully rescheduled.",
+      updatedAppointment,
+    });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+/******************************************************************************
+                                DELETE
+******************************************************************************/
 
 // Delete appointment by reference number
 export const deleteAppointmentByRefNo = async (
@@ -196,7 +263,10 @@ export const deleteAllAppointmentsByDate = async (
     if (!deletedAppointments) {
       res
         .status(HttpStatusCodes.NOT_FOUND)
-        .json({ success: true, message: "Appointments not found for the required date." });
+        .json({
+          success: true,
+          message: "Appointments not found for the required date.",
+        });
       return;
     }
     res.status(HttpStatusCodes.OK).json({
